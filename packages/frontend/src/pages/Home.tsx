@@ -28,6 +28,9 @@ export default function Home() {
                   Get Started
                   <ArrowRight className="inline ml-2 group-hover:translate-x-1 transition-transform" size={20} />
                 </Link>
+                <Link to="/login" className="btn-outline">
+                  Sign In
+                </Link>
                 <Link to="/explore" className="btn-outline">
                   Explore
                 </Link>
