@@ -1,0 +1,26 @@
+{
+  "name": "kinna-monorepo",
+  "version": "1.0.0",
+  "description": "Kinna - A social media platform for book readers by Midas Studios",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "install-all": "npm install && cd packages/backend && npm install && cd ../frontend && npm install && cd ../mobile && npm install && cd ../desktop && npm install",
+    "dev:backend": "cd packages/backend && npm run dev",
+    "dev:frontend": "cd packages/frontend && npm run dev",
+    "dev:desktop": "cd packages/desktop && npm run dev",
+    "dev:mobile": "cd packages/mobile && npm start",
+    "build:backend": "cd packages/backend && npm run build",
+    "build:frontend": "cd packages/frontend && npm run build",
+    "build:desktop": "cd packages/desktop && npm run build",
+    "build:mobile": "cd packages/mobile && npm run build",
+    "start:backend": "cd packages/backend && npm start",
+    "start:frontend": "cd packages/frontend && npm run preview",
+    "start:desktop": "cd packages/desktop && npm start"
+  },
+  "keywords": ["social-media", "books", "reading", "community"],
+  "author": "Midas Studios",
+  "license": "MIT"
+}
