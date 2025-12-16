@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-0;
+  }
+  body {
+    @apply bg-midas-dark text-white font-sans;
+  }
+}
+
+@layer components {
+  /* Metro-style buttons */
+  .btn {
+    @apply px-6 py-3 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wide text-sm;
+  }
+  
+  .btn-gold {
+    @apply btn bg-midas-gold text-midas-dark hover:bg-midas-darkGold hover:shadow-gold transform hover:scale-105;
+  }
+  
+  .btn-secondary {
+    @apply btn bg-midas-mediumGray text-white hover:bg-midas-lightGray;
+  }
+  
+  .btn-outline {
+    @apply btn border-2 border-midas-gold text-midas-gold hover:bg-midas-gold hover:text-midas-dark;
+  }
+  
+  /* Metro-style input */
+  .input {
+    @apply w-full px-4 py-3 bg-midas-darkGray text-white border-b-2 border-midas-lightGray focus:outline-none focus:border-midas-gold transition-colors;
+  }
+  
+  /* Metro tile card */
+  .metro-tile {
+    @apply bg-midas-darkGray p-6 transition-all duration-200 hover:shadow-metro hover:translate-y-[-2px] cursor-pointer;
+  }
+  
+  .metro-tile-gold {
+    @apply metro-tile bg-gradient-to-br from-midas-gold to-midas-darkGold text-midas-dark;
+  }
+  
+  .metro-tile-dark {
+    @apply metro-tile bg-midas-mediumGray hover:bg-midas-lightGray;
+  }
+  
+  /* Power BI style card */
+  .bi-card {
+    @apply bg-midas-darkGray border-l-4 border-midas-gold p-6 shadow-metro;
+  }
+  
+  .link {
+    @apply text-midas-gold hover:text-midas-lightGold underline;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-midas-darkGray;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-midas-gold rounded;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-midas-darkGold;
+  }
+}
