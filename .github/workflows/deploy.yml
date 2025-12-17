@@ -38,7 +38,7 @@ jobs:
           cd packages/frontend
           npm run build
         env:
-          VITE_API_URL: https://kinna-api.onrender.com
+          VITE_API_URL: https://curly-system-9rjpqx6j6qvhpv9p-5000.app.github.dev/api
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
