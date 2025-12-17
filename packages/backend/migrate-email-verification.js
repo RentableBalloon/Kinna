@@ -1,33 +1,18 @@
-import { Pool, PoolConfig } from 'pg';
-import dotenv from 'dotenv';
+const { Pool } = require('pg');
+require('dotenv').config();
 
-dotenv.config();
-
-const poolConfig: PoolConfig = {
+const pool = new Pool({
   host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT || '5432'),
+  port: process.env.DB_PORT || 5432,
   database: process.env.DB_NAME || 'kinna_db',
   user: process.env.DB_USER || 'postgres',
   password: process.env.DB_PASSWORD || '',
-  max: 20,
-  idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
-};
-
-const pool = new Pool(poolConfig);
-
-pool.on('connect', () => {
-  console.log('✅ Database connected successfully');
 });
 
-pool.on('error', (err: Error) => {
-  console.error('❌ Unexpected database error:', err);
-  process.exit(-1);
-});
-
-// Auto-migrate email verification table on startup
-export async function initializeDatabase() {
+async function migrate() {
   try {
+    console.log('🔄 Creating email_verification_codes table...');
+    
     await pool.query(`
       CREATE TABLE IF NOT EXISTS email_verification_codes (
         id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -41,6 +26,10 @@ export async function initializeDatabase() {
       );
     `);
     
+    console.log('✅ Table created successfully');
+    
+    console.log('🔄 Creating indices...');
+    
     await pool.query(`
       CREATE INDEX IF NOT EXISTS idx_verification_codes_user 
       ON email_verification_codes(user_id);
@@ -51,11 +40,15 @@ export async function initializeDatabase() {
       ON email_verification_codes(email, code);
     `);
     
-    console.log('✅ Email verification table initialized');
+    console.log('✅ Indices created successfully');
+    console.log('✅ Migration complete!');
+    
   } catch (error) {
-    console.error('⚠️ Could not initialize email verification table:', error);
-    // Don't exit - let the app run even if migration fails
+    console.error('❌ Migration error:', error);
+    process.exit(1);
+  } finally {
+    await pool.end();
   }
 }
 
-export default pool;
+migrate();

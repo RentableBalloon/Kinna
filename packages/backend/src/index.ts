@@ -5,6 +5,7 @@ import compression from 'compression';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
 import path from 'path';
+import { initializeDatabase } from './config/database';
 
 // Import routes
 import authRoutes from './routes/auth.routes';
@@ -13,6 +14,7 @@ import postRoutes from './routes/post.routes';
 import forumRoutes from './routes/forum.routes';
 import searchRoutes from './routes/search.routes';
 import notificationRoutes from './routes/notification.routes';
+import adminRoutes from './routes/admin.routes';
 
 // Load environment variables
 dotenv.config();
@@ -41,6 +43,7 @@ app.use('/api/posts', postRoutes);
 app.use('/api/forums', forumRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/notifications', notificationRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check
 app.get('/health', (_req: Request, res: Response) => {
@@ -64,9 +67,12 @@ app.use((_req: Request, res: Response) => {
 });
 
 // Start server
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Kinna Backend API running on port ${PORT}`);
   console.log(`📚 Environment: ${process.env.NODE_ENV || 'development'}`);
+  
+  // Initialize database tables
+  await initializeDatabase();
 });
 
 export default app;

@@ -157,6 +157,18 @@ CREATE TABLE notifications (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Email verification codes
+CREATE TABLE email_verification_codes (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    email VARCHAR(255) NOT NULL,
+    code VARCHAR(6) NOT NULL,
+    expires_at TIMESTAMP NOT NULL,
+    is_used BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE(user_id, code)
+);
+
 -- Create indexes for performance
 CREATE INDEX idx_users_username ON users(username);
 CREATE INDEX idx_users_email ON users(email);
@@ -173,6 +185,8 @@ CREATE INDEX idx_likes_user ON likes(user_id);
 CREATE INDEX idx_likes_target ON likes(target_type, target_id);
 CREATE INDEX idx_notifications_user ON notifications(user_id, is_read);
 CREATE INDEX idx_user_preferences_user ON user_preferences(user_id);
+CREATE INDEX idx_verification_codes_user ON email_verification_codes(user_id);
+CREATE INDEX idx_verification_codes_email ON email_verification_codes(email, code);
 
 -- Create updated_at trigger function
 CREATE OR REPLACE FUNCTION update_updated_at_column()
